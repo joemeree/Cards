@@ -8,12 +8,20 @@ public class BlackJackPlayer implements Player {
 	int chips = 0; 
 	int wager = 0;
 	int score = 0;
+	boolean ace = false ;
 	
 	List <Card> myCards = new ArrayList <Card> ();
 	String playerName = "not initialized";
 	
 	public BlackJackPlayer (String name) {
 		playerName = name;
+	}
+
+	public void newHand () {
+		myCards.clear();
+		wager = 0;
+		score = 0;
+		ace = false ;
 	}
 	
 	public BlackJackPlayer (String name, int chips) {
@@ -32,8 +40,14 @@ public class BlackJackPlayer implements Player {
 			int tmp = myCards.get(i).getRankInt();
 			if (tmp > 10) 
 				tmp = 10 ;
+			else if (tmp == 1)
+				ace = true;
 			score += tmp;
 		}
+	}
+	
+	public boolean hasAce () {
+		return ace;
 	}
 	
 	public String toString () {
@@ -55,14 +69,14 @@ public class BlackJackPlayer implements Player {
 		for (int i=0; i<myCards.size(); i++) {
 			s += myCards.get(i).toString() + " ";
 		}
-		s += "(" + score + ") ";
+		s += showScore();
 		return s;
 	}
 	
 	public String getDealerCards () {
 		String s = playerName + ": " ;
 		for (int i=0; i<myCards.size(); i++) {
-			if (i == 0 )
+			if (i == 1 )
 				s += "XX " ;
 			else
 				s += myCards.get(i).toString() + " ";
@@ -79,6 +93,26 @@ public class BlackJackPlayer implements Player {
 	public int getScore () {
 		return score;
 	}
+
+	public int getDealerScore () {
+		if (hasAce() && (score + 10) > 16 && (score + 10) < 22  ) {
+			return score + 10;
+		}
+		else {
+			return score;
+		}
+	}
+
+
+	public String showScore () {
+		String s = "";
+		if (ace) {
+			s = String.valueOf(score) + "/" + String.valueOf(score+10);  
+		}
+		else
+			s = String.valueOf(score);
+		return " (" + s + ") ";  
+	}
 	
 	public int getChipsInt () {
 		return chips;
@@ -93,5 +127,15 @@ public class BlackJackPlayer implements Player {
 		else
 			return false;
 	}
-	
+
+	public void lost() {
+	}
+
+	public void won() {
+		chips += (wager * 2);
+	}
+
+	public void pushed() {
+		chips += wager ;
+	}
 }

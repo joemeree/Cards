@@ -23,7 +23,8 @@ public class BlackJack {
 
 	public void play() throws Exception {
 		
-		//while (true) {			
+		while (true) {	
+			
 			for (int i=0; i< (numPlayers-1); i++) {
 				bet (i);
 			}
@@ -39,7 +40,7 @@ public class BlackJack {
 			handleDealer ();  // last player
 			
 			finishHand ();
-		//}
+		}
 	}
 		
 	private void showDealer () {
@@ -125,11 +126,46 @@ public class BlackJack {
 	}
 	
 	private void handleDealer () {
-	    System.out.println("Handle Dealer");
+		int dealer = players.size()-1 ; // dealer is the last player
+		do {
+			BlackJackPlayer p = players.get(dealer); 
+		    System.out.print(p.getCards() );
+		    
+			if (p.getDealerScore() > 21  ) {
+				System.out.println();
+				return;
+			}
+			if (p.getDealerScore() > 16 && p.getDealerScore() < 22  ) {
+				System.out.println();
+				return;
+			}
+			else {
+				Card c = deck.dealCard();
+				p.addCard(c);
+			}
+		}
+	    while ( true );
 	}
 
 	private void finishHand () {
-	    System.out.println("Finish Hand");
+	    //System.out.println("Finish Hand");
+		int dealerIndex = players.size()-1 ; // dealer is the last player
+		BlackJackPlayer dealer = players.get(dealerIndex); 
+		for (int i=0; i< (numPlayers-1); i++) {
+			BlackJackPlayer player = players.get(i); 
+			if (player.getScore() > 22) 
+				player.lost();
+			else if (dealer.getDealerScore() > 21) 
+				player.won();
+			else if (player.getScore() > dealer.getDealerScore())
+				player.won();
+			else if (player.getScore() == dealer.getDealerScore())
+				player.pushed();
+			else
+				player.lost();
+			player.newHand();
+			dealer.newHand();
+		}
 	}
 
 

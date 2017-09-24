@@ -19,7 +19,6 @@ public class BlackJackPlayer implements Player {
 
 	public void newHand () {
 		myCards.clear();
-		wager = 0;
 		score = 0;
 		ace = false ;
 	}
@@ -65,7 +64,8 @@ public class BlackJackPlayer implements Player {
 	}
 
 	public String getCards () {
-		String s = playerName + ": " ;
+		// String s = playerName + ": " ;
+		String s = "";
 		for (int i=0; i<myCards.size(); i++) {
 			s += myCards.get(i).toString() + " ";
 		}
@@ -118,6 +118,10 @@ public class BlackJackPlayer implements Player {
 		return chips;
 	}
 	
+	public int getWager () {
+		return wager ;
+	}
+
 	public boolean setWager (int bet) {
 		if (bet > 0 && bet <= chips) {
 			wager = bet;

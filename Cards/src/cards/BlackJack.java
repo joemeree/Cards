@@ -51,8 +51,12 @@ public class BlackJack {
 	private void bet (int playerNum) {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String cmd = "";
+		BlackJackPlayer p = players.get(playerNum);
+
 		do {  // do while until valid bet
-		    System.out.print(players.get(playerNum).getChips() + " Enter your bet (0 = Quit): ");
+		    System.out.print(p.getChips() + " Place bet (0 = Quit): ");
+		    if (p.getWager() > 0) 
+		    	System.out.print (" (Enter=keep " + p.getWager() + "): " );
 		    try {
 		    	cmd = reader.readLine();
 		    }
@@ -65,6 +69,13 @@ public class BlackJack {
 
 	private boolean placeBet (int player, String cmd) {
 		int bet = 0;
+		
+		BlackJackPlayer p = players.get(player);
+		if (cmd.equals("") && p.getWager() > 0 ) {
+			p.setWager(p.getWager());
+			return true;
+		}
+			
 		try {
 			bet = Integer.parseInt(cmd);
 		}
@@ -74,7 +85,6 @@ public class BlackJack {
 			return false ;
 		}
 		
-		BlackJackPlayer p = players.get(player);
 		if (bet == 0 ) {
 			System.out.println("bye");
 			System.exit(0); 
@@ -93,9 +103,9 @@ public class BlackJack {
 	private void handlePlayer (int playerNum) {
 		String cmd = "";
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		BlackJackPlayer p = players.get(playerNum); 
 		do {
-			BlackJackPlayer p = players.get(playerNum); 
-		    System.out.print(p.getCards() );
+		    System.out.print(p.getPlayerName() + ": " + p.getCards() );
 			if (p.getScore() >= 21) {
 				System.out.println();
 				return;
@@ -127,8 +137,9 @@ public class BlackJack {
 	
 	private void handleDealer () {
 		int dealer = players.size()-1 ; // dealer is the last player
+		BlackJackPlayer p = players.get(dealer); 
+	    System.out.print(p.getPlayerName() + ": ");
 		do {
-			BlackJackPlayer p = players.get(dealer); 
 		    System.out.print(p.getCards() );
 		    
 			if (p.getDealerScore() > 21  ) {
@@ -187,6 +198,7 @@ public class BlackJack {
 		if (numPlayers < 1) {
 			throw new Exception ("ERROR: cannot deal cards, num players = " + numPlayers) ;
 		}
+		//*TODO don't shuffle at the beginning of each deal
 		deck = new CardDeck();
 		//System.out.println("shuffle the deck");
 		deck.shuffle();

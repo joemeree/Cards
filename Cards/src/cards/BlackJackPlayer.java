@@ -67,7 +67,7 @@ public class BlackJackPlayer implements Player {
 		// String s = playerName + ": " ;
 		String s = "";
 		for (int i=0; i<myCards.size(); i++) {
-			s += myCards.get(i).toString() + " ";
+			s += myCards.get(i).toString().substring(0,1) + " ";
 		}
 		s += showScore();
 		return s;
@@ -77,9 +77,9 @@ public class BlackJackPlayer implements Player {
 		String s = playerName + ": " ;
 		for (int i=0; i<myCards.size(); i++) {
 			if (i == 1 )
-				s += "XX " ;
+				s += "X " ;
 			else
-				s += myCards.get(i).toString() + " ";
+				s += myCards.get(i).toString().substring(0,1) + " ";
 		}
 		return s;
 	}

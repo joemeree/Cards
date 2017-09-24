@@ -6,13 +6,13 @@ public class CardGame {
 
 	int numPlayers = 0;
 	ArrayList<Player> players = new ArrayList<Player>();
-	SingleDeck deck ;
+	CardDeck deck ;
 
 	public CardGame () {
 	}
 	
 	public void addPlayer (String name) {
-		players.add(new Player (name));
+		//players.add(new Player (name));
 		numPlayers ++;
 	}
 	
@@ -20,8 +20,8 @@ public class CardGame {
 		if (numPlayers < 1) {
 			throw new Exception ("ERROR: cannot deal cards, num players = " + numPlayers) ;
 		}
-		deck = new SingleDeck();
-		System.out.println("shuffle the deck");
+		deck = new CardDeck();
+		//System.out.println("shuffle the deck");
 		deck.shuffle();
 		
 		for(int i=0; i < numPerPlayer; i++)  // deal cards

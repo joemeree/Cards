@@ -2,15 +2,15 @@ package cards;
 
 public class BlackJackTest {
 		public static void main(String[] args) throws Exception {
-			CardGame c = new BlackJack();
-			c.addPlayer("Joe");
-			c.addPlayer("Judi");
-			c.addPlayer("Thomas");
+			BlackJack c = new BlackJack();
+			c.addPlayer("Joe", 1000);
+			c.addPlayer("Judi", 1000);
+			c.addPlayer("Thomas", 1000);
 			c.dealCards(2); //  cards per player
 			System.out.println(c.toString() ) ;
 
 			c = new BlackJack();
-			//c.addPlayer("Joe");  no players
+			//c.addPlayer("Joe", 1000);  no players
 			try {			
 				c.dealCards(2); //  cards per player
 				System.out.println(c.toString()) ;
@@ -21,8 +21,8 @@ public class BlackJackTest {
 			System.out.println();
 
 			c = new BlackJack();
-			c.addPlayer("Joe");
-			c.addPlayer("Thomas");
+			c.addPlayer("Joe", 1000);
+			c.addPlayer("Thomas", 1000);
 			c.dealCards(30); //  cards per player
 			System.out.println(c.toString()) ;
 		}

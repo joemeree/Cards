@@ -10,9 +10,9 @@ import java.util.Collections;
  * @author fusion
  *
  */
-public class SingleDeck {
+public class CardDeck {
 
-	public SingleDeck () throws Exception {
+	public CardDeck () throws Exception {
         for(int i=1; i<=52; i++){
             deck.add(new Card(i));
        }		

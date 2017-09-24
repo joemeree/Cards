@@ -1,3 +1,5 @@
+// Author: Joe Meree
+
 package cards;
 
 import java.util.ArrayList;

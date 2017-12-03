@@ -20,10 +20,8 @@ public class Card {
 	public String toString() {
 		//return "Card [suit=" + getSuit() + ", rank=" + getRank() + ", numValue=" + numValue + "]";
         return getRank() + getSuit() ;
-
 	}
 
-	
 	double numValue ;
 	
 	public static String SPADE = "S";

@@ -6,26 +6,18 @@ import java.util.ArrayList;
 
 public class BlackJack {
 	
-	public static void main (String[] args) throws Exception {
-		BlackJack bj = new BlackJack();
-		bj.addPlayer("Joe", 1000);
-		bj.addPlayer("Dealer", 1000000);
-		//System.out.println( bj.toString() );
-		bj.play();
-	}
-	
-	ArrayList<BlackJackPlayer> players = new ArrayList<BlackJackPlayer>();
+	ArrayList<Player> players = new ArrayList<Player>();
 	CardDeck deck ;
-	int numPlayers = 0;
 
 	public BlackJack () {
 	}
 
+	// TODO make a state status that gives the next operation: bet, deal, shows, handels, finish...
 	public void play() throws Exception {
 		
 		while (true) {	
 			
-			for (int i=0; i< (numPlayers-1); i++) {
+			for (int i=0; i< (players.size()-1); i++) {
 				bet (i);
 			}
 	
@@ -33,7 +25,7 @@ public class BlackJack {
 
 			showDealer (); 
 			
-			for (int i=0; i< (numPlayers-1); i++) {
+			for (int i=0; i< (players.size()-1); i++) {
 				handlePlayer (i);
 			}
 			
@@ -44,14 +36,19 @@ public class BlackJack {
 	}
 		
 	private void showDealer () {
-		BlackJackPlayer dealer = players.get(players.size()-1); 
+		Player dealer = getDealer(); 
 	    System.out.println(dealer.getDealerCards() );		
+	}
+	
+	private Player getDealer () {
+		Player dealer = players.get(players.size()-1); 
+	    return dealer;		
 	}
 	
 	private void bet (int playerNum) {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String cmd = "";
-		BlackJackPlayer p = players.get(playerNum);
+		Player p = players.get(playerNum);
 
 		do {  // do while until valid bet
 		    System.out.print(p.getChips() + " Place bet (0 = Quit): ");
@@ -70,7 +67,7 @@ public class BlackJack {
 	private boolean placeBet (int player, String cmd) {
 		int bet = 0;
 		
-		BlackJackPlayer p = players.get(player);
+		Player p = players.get(player);
 		if (cmd.equals("") && p.getWager() > 0 ) {
 			p.setWager(p.getWager());
 			return true;
@@ -103,7 +100,7 @@ public class BlackJack {
 	private void handlePlayer (int playerNum) {
 		String cmd = "";
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		BlackJackPlayer p = players.get(playerNum); 
+		Player p = players.get(playerNum); 
 		do {
 		    System.out.print(p.getPlayerName() + ": " + p.getCards() );
 			if (p.getScore() >= 21) {
@@ -123,7 +120,7 @@ public class BlackJack {
 	}
 
 	private boolean playerNotDone (int player, String cmd) {
-		BlackJackPlayer p = players.get(player);
+		Player p = players.get(player);
 		if (cmd.toUpperCase().equals("H")) {
 			Card c = deck.dealCard();
 			p.addCard(c);
@@ -137,7 +134,7 @@ public class BlackJack {
 	
 	private void handleDealer () {
 		int dealer = players.size()-1 ; // dealer is the last player
-		BlackJackPlayer p = players.get(dealer); 
+		Player p = players.get(dealer); 
 	    System.out.print(p.getPlayerName() + ": ");
 		do {
 		    System.out.print(p.getCards() );
@@ -161,9 +158,9 @@ public class BlackJack {
 	private void finishHand () {
 	    //System.out.println("Finish Hand");
 		int dealerIndex = players.size()-1 ; // dealer is the last player
-		BlackJackPlayer dealer = players.get(dealerIndex); 
-		for (int i=0; i< (numPlayers-1); i++) {
-			BlackJackPlayer player = players.get(i); 
+		Player dealer = players.get(dealerIndex); 
+		for (int i=0; i< (players.size()-1); i++) {
+			Player player = players.get(i); 
 			if (player.getScore() > 22) 
 				player.lost();
 			else if (dealer.getDealerScore() > 21) 
@@ -180,23 +177,22 @@ public class BlackJack {
 	}
 
 
-	public Player addPlayer (String name, int chips) {
-		BlackJackPlayer p = new BlackJackPlayer(name, chips) ;
+	public void addPlayer (String name, int chips) {
+		Player p = new Player(name, chips) ;
 		players.add(p);
-		numPlayers ++;
-		return p;
+		//return p;
 	}
 	
 	public String toString () {
 		String s = "";
-		for (int i=0; i< numPlayers; i++)
+		for (int i=0; i< players.size(); i++)
 			s += players.get(i).toString() + "\n" ;
 		return s;
 	}
 	
 	public void dealCards (int numPerPlayer) throws Exception {
-		if (numPlayers < 1) {
-			throw new Exception ("ERROR: cannot deal cards, num players = " + numPlayers) ;
+		if (players.size() < 1) {
+			throw new Exception ("ERROR: cannot deal cards, num players = " + players.size()) ;
 		}
 		//*TODO don't shuffle at the beginning of each deal
 		deck = new CardDeck();
@@ -204,7 +200,7 @@ public class BlackJack {
 		deck.shuffle();
 		
 		for(int i=0; i < numPerPlayer; i++)  // deal cards
-			for(int p=0; p < numPlayers; p++) { // for each player
+			for(int p=0; p < players.size(); p++) { // for each player
 				Card c = deck.dealCard();
 				if (c == null) 
 					outOfCards (players.get(p), i);

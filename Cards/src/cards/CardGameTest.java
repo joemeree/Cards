@@ -5,15 +5,16 @@ public class CardGameTest {
 		CardGame c = new CardGame();
 		c.addPlayer("Joe");
 		c.addPlayer("Judi");
-		c.addPlayer("Thomas");
-		c.addPlayer("Steven");
-		c.dealCards(5); //  cards per player
+		c.addPlayer("TJ");
+		c.addPlayer("Steve");
+		c.dealCards(3); //  cards per player
 		System.out.println(c.toString() ) ;
 
+		System.out.println("Deal to 0 players") ;
 		c = new CardGame();
 		//c.addPlayer("Joe");  no players
 		try {			
-			c.dealCards(5); //  cards per player
+			c.dealCards(3); //  cards per player
 			System.out.println(c.toString()) ;
 		}
 		catch (Exception e) {
@@ -21,9 +22,10 @@ public class CardGameTest {
 		}
 		System.out.println();
 
+		System.out.println("Deal too many cards") ;
 		c = new CardGame();
 		c.addPlayer("Joe");
-		c.addPlayer("Thomas");
+		c.addPlayer("TJ");
 		c.dealCards(30); //  cards per player
 		System.out.println(c.toString()) ;
 	}

@@ -5,10 +5,12 @@ public class BlackJackTest {
 			BlackJack c = new BlackJack();
 			c.addPlayer("Joe", 1000);
 			c.addPlayer("Judi", 1000);
-			c.addPlayer("Thomas", 1000);
+			c.addPlayer("TJ", 1000);
 			c.dealCards(2); //  cards per player
 			System.out.println(c.toString() ) ;
 
+			
+			System.out.println("Deal to 0 players") ;
 			c = new BlackJack();
 			//c.addPlayer("Joe", 1000);  no players
 			try {			
@@ -18,11 +20,11 @@ public class BlackJackTest {
 			catch (Exception e) {
 				System.out.println(e.toString());
 			}
-			System.out.println();
 
+			System.out.println("\nDeal too many cards") ;
 			c = new BlackJack();
 			c.addPlayer("Joe", 1000);
-			c.addPlayer("Thomas", 1000);
+			c.addPlayer("TJ", 1000);
 			c.dealCards(30); //  cards per player
 			System.out.println(c.toString()) ;
 		}
